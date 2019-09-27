@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="gov/cms/pqrs/clinic/v1" targetNamespace="gov/cms/pqrs/clinic/v1" elementFormDefault="qualified">
+	<xs:simpleType name="file-number">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:totalDigits value="3"/>
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="999"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:whiteSpace value="preserve"/>
+					<xs:enumeration value=""/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	<xs:simpleType name="mm-dd-yyyy-date">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-0][1-9][/][0-0][1-9][/][1-2][0-9][0-9][0-9]"/>
+			<xs:pattern value="[1-1][0-2][/][0-0][1-9][/][1-2][0-9][0-9][0-9]"/>
+			<xs:pattern value="[0-0][1-9][/][1-2][0-9][/][1-2][0-9][0-9][0-9]"/>
+			<xs:pattern value="[1-1][0-2][/][1-2][0-9][/][1-2][0-9][0-9][0-9]"/>
+			<xs:pattern value="[0-0][1-9][/][3-3][0-1][/][1-2][0-9][0-9][0-9]"/>
+			<xs:pattern value="[1-1][0-2][/][3-3][0-1][/][1-2][0-9][0-9][0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string-50-char">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+			<xs:pattern value=".*[^\s].*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="number-15digits">
+		<xs:restriction base="xs:long">
+			<xs:totalDigits value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HH-MM-time">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-1][0-9][:| ][0-5][0-9]"/>
+			<xs:pattern value="[2-2][0-3][:| ][0-5][0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="decimal-one-fraction-digit">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="1" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string-9-char">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string-30-char">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tin">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="9"/>
+			<xs:pattern value="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string-10-char">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string-100-char">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string-2-char">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="zipcode">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="5"/>
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="yes-no">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="3"/>
+			<xs:pattern value="[1]|[2]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="web-interface-export" type="tns:web-interface-export"/>
+	<xs:complexType name="web-interface-export">
+		<xs:sequence>
+			<xs:element name="group-tin" type="tns:tin"/>
+			<xs:element name="clinic" type="tns:clinic" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="clinic">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="clinic-identifier" type="tns:string-9-char" minOccurs="0"/>
+				<xs:element name="clinic-name" type="tns:string-100-char"/>
+				<xs:element name="clinic-address1" type="tns:string-50-char" minOccurs="0"/>
+				<xs:element name="clinic-address2" type="tns:string-50-char" minOccurs="0"/>
+				<xs:element name="clinic-city" type="tns:string-50-char" minOccurs="0"/>
+				<xs:element name="clinic-state" type="tns:string-2-char" minOccurs="0"/>
+				<xs:element name="clinic-zipcode" type="tns:zipcode" minOccurs="0"/>
+				<xs:element name="clinic-is-original" type="tns:yes-no" minOccurs="0"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
